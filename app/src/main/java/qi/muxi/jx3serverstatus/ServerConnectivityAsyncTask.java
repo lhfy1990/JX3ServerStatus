@@ -53,7 +53,7 @@ public class ServerConnectivityAsyncTask extends AsyncTask<Object, Void, Boolean
             callBackActivityIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             Notification notification = new NotificationCompat.Builder(parentService)
                     .setTicker("Congratulations! The server is ALIVE!")
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.drawable.ic_notification)
                     .setContentTitle("Server Connectivity Notification")
                     .setContentText("Congratulations! The server is ALIVE! Enjoy your game!")
                     .setContentIntent(PendingIntent.getActivity(parentService, 0, callBackActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT)).build();

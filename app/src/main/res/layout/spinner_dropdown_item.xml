@@ -6,6 +6,6 @@
     android:ellipsize="marquee"
     android:gravity="center"
     android:singleLine="true"
-    android:textColor="@color/tianyiBlue"
+    android:textColor="@color/primary_text_default_material_light"
     android:textSize="22sp"
     android:textStyle="italic" />
