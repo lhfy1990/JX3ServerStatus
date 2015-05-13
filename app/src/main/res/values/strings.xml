@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">JX3 Server Status</string>
+
+    <string name="textView_title">JX3 Server Status</string>
+    <string name="textView_manual">Please select a server,\nthen press start!</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_start">Start Monitoring</string>
+    <string name="button_end">Stop Monitoring</string>
+</resources>
