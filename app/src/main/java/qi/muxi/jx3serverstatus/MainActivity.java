@@ -44,15 +44,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (serverHost != null) {
-                    serviceIntent.putExtra("ServerHost", serverHost);
-                    serviceIntent.putExtra("ServerPort", serverPort);
+                    serviceIntent.putExtra(getString(R.string.serverHost), serverHost);
+                    serviceIntent.putExtra(getString(R.string.serverPort), serverPort);
                     PendingIntent serverConnectivityIntent = PendingIntent.getService(getApplicationContext(), 0,
                             serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0,
                             10000, serverConnectivityIntent);
-                    Toast.makeText(getApplicationContext(), "Alarm task set!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getText(R.string.toast_alarmSet), Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(getApplicationContext(), "Please select a server!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getText(R.string.toast_serverUnselected), Toast.LENGTH_SHORT).show();
             }
         });
         Button button_end = (Button) findViewById(R.id.button_end);
@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
                     PendingIntent serverConnectivityIntent = PendingIntent.getService(getApplicationContext(), 0,
                             serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarmManager.cancel(serverConnectivityIntent);
-                    Toast.makeText(getApplicationContext(), "Alarm task cancelled!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getText(R.string.toast_alarmCancelled), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -75,10 +75,11 @@ public class MainActivity extends Activity {
         spinner_section.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                position_spinner_serverSection = position;
                 arrayAdapterServer.clear();
                 ArrayList<String> serverSubList = serverList.get(position);
                 for (String serverData : serverSubList) {
-                    String[] data = serverData.split("--");
+                    String[] data = serverData.split(getString(R.string.splitter));
                     arrayAdapterServer.add(data[0]);
                 }
                 arrayAdapterServer.notifyDataSetChanged();
@@ -86,7 +87,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(parent.getContext(), "Please select a server!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(parent.getContext(), getText(R.string.toast_serverUnselected), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -97,14 +98,14 @@ public class MainActivity extends Activity {
         spinner_server.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String[] data = serverList.get(position_spinner_serverSection).get(position).split("--");
+                String[] data = serverList.get(position_spinner_serverSection).get(position).split(getString(R.string.splitter));
                 serverHost = data[1];
                 serverPort = Integer.valueOf(data[2]);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(parent.getContext(), "Please select a server!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(parent.getContext(), getText(R.string.toast_serverUnselected), Toast.LENGTH_SHORT).show();
             }
         });
 

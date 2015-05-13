@@ -1,9 +1,20 @@
 <resources>
-    <string name="app_name">JX3 Server Status</string>
+    <string name="app_name">剑侠情缘叁开服提醒</string>
 
-    <string name="textView_title">JX3 Server Status</string>
-    <string name="textView_manual">Please select a server,\nthen press start!</string>
-    <string name="action_settings">Settings</string>
-    <string name="button_start">Start Monitoring</string>
-    <string name="button_end">Stop Monitoring</string>
+    <string name="textView_title">剑侠情缘叁服务器开服提醒</string>
+    <string name="textView_manual">请等待服务器列表更新并显示，然后选择服务器并按下开始键。\n检测到服务器开通后监控自动停止，并弹出提醒，点击提醒和回到主界面。\n如需手动停止请按停止键。\n注意：\n1. 本应用使用后台周期任务进行监控，主界面可关闭。\n2. 本应用基于设备当前网络更新服务器列表并监控，如网络状况不佳，结果可能错误。\n3. 本应用为开源应用。</string>
+    <string name="action_settings">设置</string>
+    <string name="button_start">开始监控</string>
+    <string name="button_end">停止监控</string>
+    <string name="notification_ticker">恭喜！服务器已开通！登录和小伙伴们一起玩耍吧！</string>
+    <string name="notification_contentTitle">剑侠情缘叁开服提醒</string>
+    <string name="notification_contentText">恭喜！服务器已开通！</string>
+    <string name="toast_alarmSet">监控已开始！</string>
+    <string name="toast_alarmCancelled">监控已取消！</string>
+    <string name="toast_serverUnselected">请选择一个服务器！</string>
+    <string name="toast_serverListUpdated">服务器列表已更新！</string>
+
+    <string name="splitter">--</string>
+    <string name="serverHost">ServerHost</string>
+    <string name="serverPort">ServerPort</string>
 </resources>

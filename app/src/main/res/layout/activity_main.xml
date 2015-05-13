@@ -19,21 +19,29 @@
         android:textSize="@dimen/abc_text_size_headline_material"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textView_manual"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout_spinners"
         android:layout_below="@+id/textView_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="serif"
-        android:singleLine="false"
-        android:text="@string/textView_manual"
-        android:textSize="@dimen/abc_text_size_medium_material"
-        android:textStyle="italic" />
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/textView_manual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="serif"
+            android:singleLine="false"
+            android:text="@string/textView_manual"
+            android:textSize="@dimen/abc_text_size_small_material"
+            android:textStyle="italic" />
+    </ScrollView>
 
     <LinearLayout
+        android:id="@+id/linearLayout_spinners"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
@@ -56,6 +64,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout_buttons"
         style="?attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

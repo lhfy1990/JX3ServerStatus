@@ -71,12 +71,12 @@ public class ServerListAsyncTask extends AsyncTask<String, Void, ArrayList<Strin
                 serverSectionList.add(serverStrings[0]);
                 arrayAdapterSection.add(serverStrings[0]);
                 ArrayList<String> serverSubList = new ArrayList<>();
-                serverSubList.add(serverStrings[1] + "--" + serverStrings[3] + "--" + serverStrings[4]);
+                serverSubList.add(serverStrings[1] + parentContext.getString(R.string.splitter) + serverStrings[3] + parentContext.getString(R.string.splitter) + serverStrings[4]);
                 serverList.add(serverSubList);
             } else
-                serverList.get(position).add(serverStrings[1] + "--" + serverStrings[3] + "--" + serverStrings[4]);
+                serverList.get(position).add(serverStrings[1] + parentContext.getString(R.string.splitter) + serverStrings[3] + parentContext.getString(R.string.splitter) + serverStrings[4]);
         }
         arrayAdapterSection.notifyDataSetChanged();
-        Toast.makeText(parentContext, "Server List Updated!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(parentContext, parentContext.getText(R.string.toast_serverListUpdated), Toast.LENGTH_SHORT).show();
     }
 }

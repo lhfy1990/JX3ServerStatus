@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -33,6 +34,7 @@ public class ServerConnectivityAsyncTask extends AsyncTask<Object, Void, Boolean
     protected Boolean doInBackground(Object... params) {
         String serverHost = (String) params[0];
         int serverPort = (int) params[1];
+        Log.i(LOG_TAG, String.valueOf(serverHost) + " " + String.valueOf(serverPort));
         int timeout = 5000;
         try {
             Socket socket = new Socket();
@@ -48,14 +50,15 @@ public class ServerConnectivityAsyncTask extends AsyncTask<Object, Void, Boolean
     @Override
     protected void onPostExecute(Boolean connectivity) {
         super.onPostExecute(connectivity);
+        Log.i(LOG_TAG, String.valueOf(connectivity));
         if (connectivity) {
             Intent callBackActivityIntent = new Intent(parentService, MainActivity.class);
             callBackActivityIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             Notification notification = new NotificationCompat.Builder(parentService)
-                    .setTicker("Congratulations! The server is ALIVE!")
+                    .setTicker(parentService.getText(R.string.notification_ticker))
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setContentTitle("Server Connectivity Notification")
-                    .setContentText("Congratulations! The server is ALIVE! Enjoy your game!")
+                    .setContentTitle(parentService.getText(R.string.notification_contentTitle))
+                    .setContentText(parentService.getText(R.string.notification_contentText))
                     .setContentIntent(PendingIntent.getActivity(parentService, 0, callBackActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT)).build();
             notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
             notification.defaults |= Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS;

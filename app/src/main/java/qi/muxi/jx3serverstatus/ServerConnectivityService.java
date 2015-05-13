@@ -20,8 +20,8 @@ public class ServerConnectivityService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String serverHost = intent.getStringExtra("ServerHost");
-        int serverPort = intent.getIntExtra("ServerPort", -1);
+        String serverHost = intent.getStringExtra(getString(R.string.serverHost));
+        int serverPort = intent.getIntExtra(getString(R.string.serverPort), -1);
         if (serverPort != -1 && serverHost != null) {
             ServerConnectivityAsyncTask serverConnectivityAsyncTask = new ServerConnectivityAsyncTask(this);
             serverConnectivityAsyncTask.execute(serverHost, serverPort);
