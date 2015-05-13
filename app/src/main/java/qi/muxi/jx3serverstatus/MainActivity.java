@@ -19,9 +19,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     private static final String LOG_TAG = "MainActivity";
+    ArrayAdapter<String> arrayAdapterSection;
+    ArrayAdapter<String> arrayAdapterServer;
     private AlarmManager alarmManager;
     private Intent serviceIntent;
-    private ArrayList<String> serverList;
+    private ArrayList<ArrayList<String>> serverList;
+    private int position_spinner_serverSection;
     private String serverHost;
     private int serverPort;
 
@@ -65,15 +68,38 @@ public class MainActivity extends Activity {
             }
         });
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_dropdown_item);
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setAdapter(arrayAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        if (arrayAdapterSection == null)
+            arrayAdapterSection = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_dropdown_item);
+        Spinner spinner_section = (Spinner) findViewById(R.id.spinner_section);
+        spinner_section.setAdapter(arrayAdapterSection);
+        spinner_section.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String[] data = serverList.get(position).split("--");
-                serverHost = data[0];
-                serverPort = Integer.valueOf(data[1]);
+                arrayAdapterServer.clear();
+                ArrayList<String> serverSubList = serverList.get(position);
+                for (String serverData : serverSubList) {
+                    String[] data = serverData.split("--");
+                    arrayAdapterServer.add(data[0]);
+                }
+                arrayAdapterServer.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(parent.getContext(), "Please select a server!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        if (arrayAdapterServer == null)
+            arrayAdapterServer = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_dropdown_item);
+        Spinner spinner_server = (Spinner) findViewById(R.id.spinner_server);
+        spinner_server.setAdapter(arrayAdapterServer);
+        spinner_server.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String[] data = serverList.get(position_spinner_serverSection).get(position).split("--");
+                serverHost = data[1];
+                serverPort = Integer.valueOf(data[2]);
             }
 
             @Override
@@ -84,7 +110,7 @@ public class MainActivity extends Activity {
 
         serverList = new ArrayList<>();
         serverList.clear();
-        ServerListAsyncTask serverListAsyncTask = new ServerListAsyncTask(getApplicationContext(), serverList, arrayAdapter);
+        ServerListAsyncTask serverListAsyncTask = new ServerListAsyncTask(getApplicationContext(), serverList, arrayAdapterSection);
         serverListAsyncTask.execute();
     }
 

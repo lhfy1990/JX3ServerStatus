@@ -32,30 +32,54 @@
         android:text="@string/textView_manual"
         android:textSize="@dimen/abc_text_size_medium_material"
         android:textStyle="italic" />
-        <Spinner
-        android:id="@+id/spinner"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:clickable="true"
-        android:spinnerMode="dropdown" />
-
-    <Button
-        android:id="@+id/button_start"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="@string/button_start" />
+        android:layout_centerInParent="true">
 
-    <Button
-        android:id="@+id/button_end"
-        android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/spinner_section"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:spinnerMode="dropdown" />
+
+        <Spinner
+            android:id="@+id/spinner_server"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="?attr/buttonBarStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/button_end" />
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/button_start"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/primary_material_light"
+            android:text="@string/button_start" />
+
+        <Button
+            android:id="@+id/button_end"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/primary_material_light"
+            android:text="@string/button_end" />
+    </LinearLayout>
 
 </RelativeLayout>

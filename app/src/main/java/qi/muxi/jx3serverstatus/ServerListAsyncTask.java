@@ -27,21 +27,21 @@ public class ServerListAsyncTask extends AsyncTask<String, Void, ArrayList<Strin
     /**
      * the ArrayList of server data strings
      */
-    private ArrayList<String> serverList;
+    private ArrayList<ArrayList<String>> serverList;
     /**
-     * the ArrayAdapter of the spinner
+     * the ArrayAdapter of the spinner_serverSection
      */
-    private ArrayAdapter<String> arrayAdapter;
+    private ArrayAdapter<String> arrayAdapterSection;
 
-    public ServerListAsyncTask(Context parentContext, ArrayList<String> serverList, ArrayAdapter<String> arrayAdapter) {
+    public ServerListAsyncTask(Context parentContext, ArrayList<ArrayList<String>> serverList, ArrayAdapter<String> arrayAdapterSection) {
         this.parentContext = parentContext;
         this.serverList = serverList;
-        this.arrayAdapter = arrayAdapter;
+        this.arrayAdapterSection = arrayAdapterSection;
     }
 
     @Override
     protected ArrayList<String> doInBackground(String... params) {
-        ArrayList<String> serverList = new ArrayList<>();
+        ArrayList<String> serverDataList = new ArrayList<>();
         URL serverListURL;
         try {
             serverListURL = new URL("http://jx3gc.autoupdate.kingsoft.com/jx3gc/zhcn/serverlist/serverlist.ini");
@@ -51,24 +51,32 @@ public class ServerListAsyncTask extends AsyncTask<String, Void, ArrayList<Strin
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "GBK"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                serverList.add(line);
+                serverDataList.add(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return serverList;
+        return serverDataList;
     }
 
     @Override
-    protected void onPostExecute(ArrayList<String> serverList) {
-        this.serverList.clear();
-        arrayAdapter.clear();
-        for (String server : serverList) {
-            String[] serverStrings = server.split("\t");
-            this.serverList.add(serverStrings[3] + "--" + serverStrings[4]);
-            arrayAdapter.add(serverStrings[0] + "--" + serverStrings[1]);
+    protected void onPostExecute(ArrayList<String> serverDataList) {
+        serverList.clear();
+        arrayAdapterSection.clear();
+        ArrayList<String> serverSectionList = new ArrayList<>();
+        for (String serverData : serverDataList) {
+            String[] serverStrings = serverData.split("\t");
+            int position = serverSectionList.indexOf(serverStrings[0]);
+            if (position == -1) {
+                serverSectionList.add(serverStrings[0]);
+                arrayAdapterSection.add(serverStrings[0]);
+                ArrayList<String> serverSubList = new ArrayList<>();
+                serverSubList.add(serverStrings[1] + "--" + serverStrings[3] + "--" + serverStrings[4]);
+                serverList.add(serverSubList);
+            } else
+                serverList.get(position).add(serverStrings[1] + "--" + serverStrings[3] + "--" + serverStrings[4]);
         }
-        arrayAdapter.notifyDataSetChanged();
+        arrayAdapterSection.notifyDataSetChanged();
         Toast.makeText(parentContext, "Server List Updated!", Toast.LENGTH_SHORT).show();
     }
 }
