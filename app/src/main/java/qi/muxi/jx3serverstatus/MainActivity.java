@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,8 +21,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     private static final String LOG_TAG = "MainActivity";
-    ArrayAdapter<String> arrayAdapterSection;
-    ArrayAdapter<String> arrayAdapterServer;
+    private ArrayAdapter<String> arrayAdapterSection;
+    private ArrayAdapter<String> arrayAdapterServer;
+    private Configuration configuration;
     private AlarmManager alarmManager;
     private Intent serviceIntent;
     private ArrayList<ArrayList<String>> serverList;
@@ -33,9 +36,33 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (alarmManager == null) {
-            alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        }
+        if (configuration == null)
+            configuration = new Configuration(true, false, true);
+
+        Switch switch_vibrate = (Switch) findViewById(R.id.switch_vibrate);
+        switch_vibrate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                configuration.setVibrate(isChecked);
+            }
+        });
+        Switch switch_sound = (Switch) findViewById(R.id.switch_sound);
+        switch_sound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                configuration.setSound(isChecked);
+            }
+        });
+        Switch switch_light = (Switch) findViewById(R.id.switch_light);
+        switch_light.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                configuration.setLight(isChecked);
+            }
+        });
+
+
+        if (alarmManager == null) alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         serviceIntent = new Intent(getApplicationContext(), ServerConnectivityService.class);
 
@@ -44,8 +71,11 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (serverHost != null) {
-                    serviceIntent.putExtra(getString(R.string.serverHost), serverHost);
-                    serviceIntent.putExtra(getString(R.string.serverPort), serverPort);
+                    Bundle serviceBundle = new Bundle();
+                    serviceBundle.putString(getString(R.string.serverHost), serverHost);
+                    serviceBundle.putInt(getString(R.string.serverPort), serverPort);
+                    serviceBundle.putSerializable(getString(R.string.configuration), configuration);
+                    serviceIntent.putExtras(serviceBundle);
                     PendingIntent serverConnectivityIntent = PendingIntent.getService(getApplicationContext(), 0,
                             serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0,
@@ -69,7 +99,7 @@ public class MainActivity extends Activity {
         });
 
         if (arrayAdapterSection == null)
-            arrayAdapterSection = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_dropdown_item);
+            arrayAdapterSection = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item);
         Spinner spinner_section = (Spinner) findViewById(R.id.spinner_section);
         spinner_section.setAdapter(arrayAdapterSection);
         spinner_section.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -92,7 +122,7 @@ public class MainActivity extends Activity {
         });
 
         if (arrayAdapterServer == null)
-            arrayAdapterServer = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_dropdown_item);
+            arrayAdapterServer = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item);
         Spinner spinner_server = (Spinner) findViewById(R.id.spinner_server);
         spinner_server.setAdapter(arrayAdapterServer);
         spinner_server.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

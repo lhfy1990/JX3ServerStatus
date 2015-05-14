@@ -2,10 +2,14 @@
     <string name="app_name">剑侠情缘叁开服提醒</string>
 
     <string name="textView_title">剑侠情缘叁服务器开服提醒</string>
-    <string name="textView_manual">请等待服务器列表更新并显示，然后选择服务器并按下开始键。\n检测到服务器开通后监控自动停止，并弹出提醒，点击提醒和回到主界面。\n如需手动停止请按停止键。\n注意：\n1. 本应用使用后台周期任务进行监控，主界面可关闭。\n2. 本应用基于设备当前网络更新服务器列表并监控，如网络状况不佳，结果可能错误。\n3. 本应用为开源应用。</string>
+    <string name="textView_manual">请等待服务器列表更新并显示，然后选择服务器并按下开始键。\n检测到服务器开通后监控自动停止，并弹出提醒，点击提醒和回到主界面。\n如需手动停止请按停止键。\n注意：\n1. 本应用使用后台周期任务进行监控，主界面可关闭。\n2. 本应用基于设备当前网络更新服务器列表并监控，如网络状况不佳，结果可能错误。\n3. 同时只能监控一个服务器。\n4. 如改变通知设置，请重新开始监控设置方能生效。</string>
     <string name="action_settings">设置</string>
     <string name="button_start">开始监控</string>
     <string name="button_end">停止监控</string>
+    <string name="switch_vibrate">通知震动</string>
+    <string name="switch_sound">通知声音</string>
+    <string name="switch_light">通知灯光</string>
+
     <string name="notification_ticker">恭喜！服务器已开通！登录和小伙伴们一起玩耍吧！</string>
     <string name="notification_contentTitle">剑侠情缘叁开服提醒</string>
     <string name="notification_contentText">恭喜！服务器已开通！</string>
@@ -17,4 +21,5 @@
     <string name="splitter">--</string>
     <string name="serverHost">ServerHost</string>
     <string name="serverPort">ServerPort</string>
+    <string name="configuration">Configuration</string>
 </resources>

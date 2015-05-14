@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -25,9 +26,11 @@ import java.net.SocketAddress;
 public class ServerConnectivityAsyncTask extends AsyncTask<Object, Void, Boolean> {
     private static final String LOG_TAG = "SCAsyncTask";
     private Service parentService;
+    private Configuration configuration;
 
-    public ServerConnectivityAsyncTask(Service parentService) {
+    public ServerConnectivityAsyncTask(Service parentService, Configuration configuration) {
         this.parentService = parentService;
+        this.configuration = configuration;
     }
 
     @Override
@@ -60,10 +63,17 @@ public class ServerConnectivityAsyncTask extends AsyncTask<Object, Void, Boolean
                     .setContentTitle(parentService.getText(R.string.notification_contentTitle))
                     .setContentText(parentService.getText(R.string.notification_contentText))
                     .setContentIntent(PendingIntent.getActivity(parentService, 0, callBackActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT)).build();
-            notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
-            notification.defaults |= Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS;
-            notification.ledOnMS = 300;
-            notification.ledOffMS = 1000;
+            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+            if (configuration.isLight()) {
+                notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+                notification.defaults |= Notification.DEFAULT_LIGHTS; // TODO May not corrent on different devices
+                notification.ledOnMS = 300;
+                notification.ledOffMS = 1000;
+            }
+            if (configuration.isVibrate())
+                notification.defaults |= Notification.DEFAULT_VIBRATE;
+            if (configuration.isSound())
+                notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationManager notificationManager = (NotificationManager) parentService.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(0, notification);
             AlarmManager alarmManager = (AlarmManager) parentService.getSystemService(Context.ALARM_SERVICE);

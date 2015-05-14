@@ -2,6 +2,7 @@ package qi.muxi.jx3serverstatus;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 
 /**
@@ -20,10 +21,12 @@ public class ServerConnectivityService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String serverHost = intent.getStringExtra(getString(R.string.serverHost));
-        int serverPort = intent.getIntExtra(getString(R.string.serverPort), -1);
+        Bundle serviceBundle = intent.getExtras();
+        String serverHost = serviceBundle.getString(getString(R.string.serverHost), null);
+        int serverPort = serviceBundle.getInt(getString(R.string.serverPort), -1);
+        Configuration configuration = (Configuration) serviceBundle.getSerializable(getString(R.string.configuration));
         if (serverPort != -1 && serverHost != null) {
-            ServerConnectivityAsyncTask serverConnectivityAsyncTask = new ServerConnectivityAsyncTask(this);
+            ServerConnectivityAsyncTask serverConnectivityAsyncTask = new ServerConnectivityAsyncTask(this, configuration);
             serverConnectivityAsyncTask.execute(serverHost, serverPort);
         }
         stopSelf();
