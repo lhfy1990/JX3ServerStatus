@@ -18,16 +18,29 @@ import java.net.Socket;
 import java.net.SocketAddress;
 
 /**
- * a class defining a server connectivity checking AsyncTask.
+ * <p>a class defining a server connectivity checking AsyncTask.</p>
+ * <p>This class should only be used in {@link ServerConnectivityService}</p>
  * Created by Muxi on 5/11/2015.
  *
  * @author Muxi
  */
 public class ServerConnectivityAsyncTask extends AsyncTask<Object, Void, Boolean> {
     private static final String LOG_TAG = "SCAsyncTask";
+    /**
+     * a Service referring parent Service.
+     */
     private Service parentService;
+    /**
+     * a Configuration storing notification configuration.
+     */
     private Configuration configuration;
 
+    /**
+     * Called by construction.
+     *
+     * @param parentService the Service referring parent Service.
+     * @param configuration the Configuration storing notification configuration.
+     */
     public ServerConnectivityAsyncTask(Service parentService, Configuration configuration) {
         this.parentService = parentService;
         this.configuration = configuration;

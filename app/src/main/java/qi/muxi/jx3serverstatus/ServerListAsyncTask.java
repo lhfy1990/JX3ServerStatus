@@ -33,6 +33,13 @@ public class ServerListAsyncTask extends AsyncTask<String, Void, ArrayList<Strin
      */
     private ArrayAdapter<String> arrayAdapterSection;
 
+    /**
+     * Called by construction.
+     *
+     * @param parentContext       the context of parent thread
+     * @param serverList          the ArrayList of server data strings
+     * @param arrayAdapterSection the ArrayAdapter of the spinner_serverSection
+     */
     public ServerListAsyncTask(Context parentContext, ArrayList<ArrayList<String>> serverList, ArrayAdapter<String> arrayAdapterSection) {
         this.parentContext = parentContext;
         this.serverList = serverList;

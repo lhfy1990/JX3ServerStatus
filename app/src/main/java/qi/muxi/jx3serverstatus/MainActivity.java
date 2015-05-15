@@ -1,10 +1,10 @@
 package qi.muxi.jx3serverstatus;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,16 +19,49 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity {
+/**
+ * a class defining the main Activity.
+ * Created by Muxi on 5/10/2015.
+ *
+ * @author Muxi
+ */
+public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";
+    /**
+     * an ArrayAdapter for spinner_section.
+     */
     private ArrayAdapter<String> arrayAdapterSection;
+    /**
+     * an ArrayAdapter for spinner_server.
+     */
     private ArrayAdapter<String> arrayAdapterServer;
+    /**
+     * a Configuration storing configuration.
+     */
     private Configuration configuration;
+    /**
+     * an AlarmManager setting the alarmed task.
+     */
     private AlarmManager alarmManager;
+    /**
+     * an Intent for server connectivity service, used by {@link #alarmManager}.
+     */
     private Intent serviceIntent;
+    /**
+     * an ArrayList storing server list.
+     */
     private ArrayList<ArrayList<String>> serverList;
-    private int position_spinner_serverSection;
+    /**
+     * an int storing current selection position of spinner_section.
+     */
+    private int position_spinner_section;
+    /**
+     * a String storing current selected server host.
+     */
     private String serverHost;
+    /**
+     * an int storing current selected server port.
+     */
     private int serverPort;
 
     @Override
@@ -105,7 +138,7 @@ public class MainActivity extends Activity {
         spinner_section.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                position_spinner_serverSection = position;
+                position_spinner_section = position;
                 arrayAdapterServer.clear();
                 ArrayList<String> serverSubList = serverList.get(position);
                 for (String serverData : serverSubList) {
@@ -128,7 +161,7 @@ public class MainActivity extends Activity {
         spinner_server.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String[] data = serverList.get(position_spinner_serverSection).get(position).split(getString(R.string.splitter));
+                String[] data = serverList.get(position_spinner_section).get(position).split(getString(R.string.splitter));
                 serverHost = data[1];
                 serverPort = Integer.valueOf(data[2]);
             }
@@ -161,6 +194,7 @@ public class MainActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(getApplicationContext(), getText(R.string.toast_action_settings), Toast.LENGTH_SHORT).show();
             return true;
         }
 
